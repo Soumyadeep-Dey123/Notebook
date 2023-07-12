@@ -229,13 +229,13 @@ $resVideoSubject = mysqli_query($con, $sqlSubject);
             <select id="chapter_id" name="chapter_id" class="fa fa-user w3-input w3-border"></select>
           </div>
 
-          <div id="sec-content-type" style="display:none;">
+          <!-- <div id="sec-content-type" style="display:none;">
             <p><label><i class="fa fa-bookmark"></i>Please Select Content Type</label></p>
             <input type="radio" id="notes" name="content_type" value="notes">
             <label for="notes">Notes</label>
             <input type="radio" id="summary" name="content_type" value="summary">
             <label for="summary">Summary</label><br>  
-          </div>
+          </div> -->
 
           <div style="clear:both;"></div>
           <div style="margin-top:10px;">
@@ -279,11 +279,11 @@ $resVideoSubject = mysqli_query($con, $sqlSubject);
           </div>
 
           <div style="clear:both;"></div>
-          <!-- <div style="margin-top:10px;">
+          <div style="margin-top:10px;">
             <embed id="notes" src="" width="800px" height="500px" />
-          </div> -->
+          </div>
 
-          <a id="new-link" href="https://youtube.com/@studywithnotebook" target="_blank" class="w3-button w3-block w3-teal w3-padding-16 w3-section w3-right">Open Lecture<i class="fa fa-check"></i></a>
+          <a id="new-link" href="" target="_blank" class="w3-button w3-block w3-teal w3-padding-16 w3-section w3-right">Open Lecture<i class="fa fa-check"></i></a>
         </form>
 
           <!-- <button class="w3-button w3-red w3-section" onclick="document.getElementById('ticketModal').style.display='none'">Close <i              class="fa fa-remove"></i></button> -->
@@ -372,6 +372,36 @@ $resVideoSubject = mysqli_query($con, $sqlSubject);
         }
       });
 
+
+      /******************************Video Chap*********************************/ 
+      $(document).ready(function(){
+      $("#video_subject_id").change(function(){
+        var video_subject_id = $(this).val();
+        if(video_subject_id != ""){
+
+          if(video_subject_id != "1"){
+            $("#sec-content-type").hide();
+          }
+
+
+          $.post("get_chapters.php",{video_subject_id:subject_id},
+          function(data, status){
+            if(data.length > 0){
+              $("#chapter_id").html(data);
+              // $('embed#notes').attr('src', 'notes/computer/Computer_1_Unit_1_Introduction_to_Object_Oriented_Programming_Concepts.pdf');
+              $("#sec-chapter").show();
+            }else{
+              $("#chapter_id").html('');
+              $("#sec-chapter").hide();
+            }
+          });
+        }else{
+          $("#chapter_id").html('');
+          $("#sec-chapter").hide();
+        }
+      });
+
+
       /****************************************************************** */
       $("#chapter_id").change(function(){
         var chapter_id = $(this).val();
@@ -394,6 +424,20 @@ $resVideoSubject = mysqli_query($con, $sqlSubject);
               $('#new-link').attr('href', '');
             }
           });
+
+          $.post("get_videos.php",{chapter_id:chapter_id},
+          function(data, status){
+            if(data.length > 0){
+              $('embed#notes').attr('src', data);
+              $('#new-link').attr('href', data);
+              
+            }else{
+              $("#sec-content").hide();
+              $('embed#notes').attr('src', '');
+              $('#new-link').attr('href', '');
+            }
+          });
+
         }else{
           $("#sec-content").hide();
           $('embed#notes').attr('src', '');
