@@ -1,7 +1,6 @@
 <?php
 include 'conn.php';
 $insert = false;
-
 if (isset($_POST['name'])) {
   
   // echo "Success connecting to the db";
@@ -15,14 +14,10 @@ if (isset($_POST['name'])) {
 
   // Execute the query
   if ($con->query($sql) == true) {
-    include 'email.php';  
+    // echo "Successfully inserted";
 
-    if($mailToAdmin){
-       echo "<script>alert('Thanks for contacting NoteBook. If your message contained a query, our team will contact you back within 24 working hours.')</script>";
-    }else{
-        echo "<script>alert('Technical error! Form not submit!')</script>";
-    } 
-      
+    // Flag for successful insertion
+    $insert = true;
   } else {
     echo "ERROR: $sql <br> $con->error ";
   }
@@ -32,7 +27,8 @@ if (isset($_POST['name'])) {
 
 $sqlSubject ="SELECT * FROM `subjects`";
 $resSubject = mysqli_query($con, $sqlSubject);
-$videoResSubject = mysqli_query($con, $sqlSubject);
+
+$resVideoSubject = mysqli_query($con, $sqlSubject);
 
 
 ?>
@@ -137,11 +133,11 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
       <h3 class="w3-wide">FACULTY MEMBERS</h3>
         <div class="w3-third">
           <img src="images\DebarghaPic.PNG" class="w3-round " alt="Random Name" style="width:60%">
-          <p>Debargha Chakraborty<br>Maths Faculty</p>
+          <p>Debargha Chakraborty<br>Maths and Physics Faculty</p>
         </div>
         <div class="w3-third">
-          <img src="images\rudrashisFinal.PNG" class="w3-round " alt="Random Name" style="width:60%">
-          <p>Rudrasish Dutta<br>Chemistry & Physics Faculty</p>
+          <img src="images\rohitchem.PNG" class="w3-round " alt="Random Name" style="width:60%">
+          <p>Rohit Saha<br>Chemistry Faculty</p>
         </div>
         <div class="w3-third">
           <img src="images\tanibio.PNG" class="w3-round" alt="Random Name" style="width:60%">
@@ -153,8 +149,8 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
         <p>Srinjoy Pramanik<br>Computer Faculty</p>
         </div>
         <div class="w3-third">
-          <img src="images\sagnikcomp.PNG" class="w3-round " alt="Random Name" style="width:60%">
-          <p>Sagnik Pal<br>Computer Faculty</p>
+          <img src="images\archicomp.PNG" class="w3-round " alt="Random Name" style="width:60%">
+          <p>Archismwan Chatterjee<br>Computer Faculty</p>
         </div>
         <div class="w3-third">
           <img src="images\ayaneng.PNG" class="w3-round" alt="Random Name" style="width:60%">
@@ -195,7 +191,7 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
           </div> -->
           </div>
           <div class="w3-third w3-margin-bottom">
-            <a href="https://www.youtube.com/@studywithnotebook" target="_blank"><img src="images\videoicon.jpg" alt="San Francisco" style="width:100%" class="w3-hover-opacity" /></a>
+            <img src="images\videoicon.jpg" alt="San Francisco" style="width:100%" class="w3-hover-opacity">
             <div class="w3-container w3-white">
               <p><b>VIDEOS</b></p>
               <!-- <p class="w3-opacity">Sun 29 Nov 2016</p> -->
@@ -209,9 +205,9 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
 
     <!-- Notes Ticket Modal -->
     <div id="ticketModal" class="w3-modal">
-      <div class="w3-modal-content w3-animate-top w3-table-all w3-card-4">
-        <header class="w3-container w3-center w3-black w3-padding-32">
-          <span onclick="document.getElementById('ticketModal').style.display='none'" class="w3-button w3-white w3-xlarge w3-display-topright">×</span>
+      <div class="w3-modal-content w3-animate-top w3-card-4">
+        <header class="w3-container w3-teal w3-center w3-padding-32">
+          <span onclick="document.getElementById('ticketModal').style.display='none'" class="w3-button w3-teal w3-xlarge w3-display-topright">×</span>
           <h2 class="w3-wide"><i class=" w3-margin-right"></i>Notes</h2>
         </header>
         <div class="w3-container">
@@ -233,12 +229,20 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
             <select id="chapter_id" name="chapter_id" class="fa fa-user w3-input w3-border"></select>
           </div>
 
-          <div style="clear:both;"></div>
-          <!-- <div id="notes-area" style="margin-top:10px;">
-            <embed id="notes" src="" width="800px" height="500px" />
+          <!-- <div id="sec-content-type" style="display:none;">
+            <p><label><i class="fa fa-bookmark"></i>Please Select Content Type</label></p>
+            <input type="radio" id="notes" name="content_type" value="notes">
+            <label for="notes">Notes</label>
+            <input type="radio" id="summary" name="content_type" value="summary">
+            <label for="summary">Summary</label><br>  
           </div> -->
 
-          <a id="new-link" href="" target="_blank" class="w3-button w3-block w3-black w3-padding-16 w3-section w3-right">Open Notes<i class="fa fa-check"></i></a>
+          <div style="clear:both;"></div>
+          <div style="margin-top:10px;">
+            <embed id="notes" src="" width="800px" height="500px" />
+          </div>
+
+          <a id="new-link" href="" target="_blank" class="w3-button w3-block w3-teal w3-padding-16 w3-section w3-right">Open this on new window<i class="fa fa-check"></i></a>
         </form>
 
           <!-- <button class="w3-button w3-red w3-section" onclick="document.getElementById('ticketModal').style.display='none'">Close <i              class="fa fa-remove"></i></button> -->
@@ -250,9 +254,9 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
 
     <!-- Redirecting to youtube -->
     <div id="redirectingyt" class="w3-modal">
-    <div class="w3-modal-content w3-animate-top w3-table-all w3-card-4">
-        <header class="w3-container w3-black w3-center w3-padding-32">
-          <span onclick="document.getElementById('redirectingyt').style.display='none'" class="w3-button w3-white w3-xlarge w3-display-topright">×</span>
+    <div class="w3-modal-content w3-animate-top w3-card-4">
+        <header class="w3-container w3-teal w3-center w3-padding-32">
+          <span onclick="document.getElementById('redirectingyt').style.display='none'" class="w3-button w3-teal w3-xlarge w3-display-topright">×</span>
           <h2 class="w3-wide"><i class="w3-margin-right"></i>Videos</h2>
         </header>
         <div class="w3-container">
@@ -264,22 +268,22 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
           <select id="video_subject_id" name="video_subject_id" class="fa fa-user w3-input w3-border">
             <option value="">---Select Subject---</option>
             <?php
-            while($videoRowSubject = mysqli_fetch_array($videoResSubject, MYSQLI_ASSOC)){
-              echo '<option value="'.$videoRowSubject['id'].'">'.$videoRowSubject['subjectname'].'</option>';
+            while($videoSubject = mysqli_fetch_array($resVideoSubject, MYSQLI_ASSOC)){
+              echo '<option value="'.$videoSubject['id'].'">'.$videoSubject['subjectname'].'</option>';
             }  
             ?> 
           </select>
-          <div id="video-sec-chapter" style="display:none;">
+          <div id="sec-chapter" style="display:none;">
             <p><label><i class="fa fa-bookmark"></i>Select Chapter</label></p>
-            <select id="video_chapter_id" name="video_chapter_id" class="fa fa-user w3-input w3-border"></select>
+            <select id="chapter_id" name="chapter_id" class="fa fa-user w3-input w3-border"></select>
           </div>
 
           <div style="clear:both;"></div>
-          <!-- <div id="video-area" style="margin-top:10px;">
-            <iframe id="y-video" width="800px" height="500px" src=""></iframe>
-          </div> -->
+          <div style="margin-top:10px;">
+            <embed id="notes" src="" width="800px" height="500px" />
+          </div>
 
-          <a id="you-link" href="" target="_blank" class="w3-button w3-block w3-black w3-padding-16 w3-section w3-right">View Lecture<i class="fa fa-check"></i></a>
+          <a id="new-link" href="" target="_blank" class="w3-button w3-block w3-teal w3-padding-16 w3-section w3-right">Open Lecture<i class="fa fa-check"></i></a>
         </form>
 
           <!-- <button class="w3-button w3-red w3-section" onclick="document.getElementById('ticketModal').style.display='none'">Close <i              class="fa fa-remove"></i></button> -->
@@ -310,7 +314,7 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
                 <input class="w3-input w3-border" type="text" placeholder="Name" required name="name">
               </div>
               <div class="w3-half">
-                <input class="w3-input w3-border" type="email" placeholder="Email" required name="email">
+                <input class="w3-input w3-border" type="text" placeholder="Email" required name="email">
               </div>
             </div>
             <input class="w3-input w3-border" type="text" placeholder="Message" required name="message">
@@ -329,26 +333,28 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
   <!-- Footer -->
   <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
     <!-- <i class="fa fa-facebook-official w3-hover-opacity"></i> -->
+    <a href="https://www.instagram.com/studywithnotebook/"><i class="fa fa-instagram w3-hover-opacity"></i></a>
     <!-- <i class="fa fa-snapchat w3-hover-opacity"></i> -->
     <!-- <i class="fa fa-pinterest-p w3-hover-opacity"></i> -->
     <!-- <i class="fa fa-twitter w3-hover-opacity"></i> -->
-    <a href="https://www.instagram.com/studywithnotebook/" target = "_blank"><i class="fa fa-instagram w3-hover-opacity"></i></a>
-    <a href="https://youtube.com/@studywithnotebook" target = "_blank"><i class="fa fa-youtube w3-hover-opacity"></i></a>
-    <a href="https://www.linkedin.com/company/studywithnotebook/" target = "_blank"><i class="fa fa-linkedin w3-hover-opacity"></i></a>
-    <p class="w3-medium">Copyright 2023-<?=date('Y')?> by NoteBook. All Rights Reserved. <br><a href="https://notebooklive.in/" target="_blank">NoteBook</a> is Powered by <a href=#about>NoteBook Team</a></p>
+    <a href="https://youtube.com/@studywithnotebook"><i class="fa fa-youtube w3-hover-opacity"></i></a>
+    <a href="https://www.linkedin.com/company/studywithnotebook/"><i class="fa fa-linkedin w3-hover-opacity"></i></a>
+    <!-- <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   </footer>
 
   <script>
 
     $(document).ready(function(){
-      $("#notes-area").hide();
-      $("#video-area").hide();
-
       $("#subject_id").change(function(){
-        $("#notes-area").hide();
         var subject_id = $(this).val();
         if(subject_id != ""){
+
+          if(subject_id != "1"){
+            $("#sec-content-type").hide();
+          }
+
+
           $.post("get_chapters.php",{subject_id:subject_id},
           function(data, status){
             if(data.length > 0){
@@ -356,7 +362,7 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
               // $('embed#notes').attr('src', 'notes/computer/Computer_1_Unit_1_Introduction_to_Object_Oriented_Programming_Concepts.pdf');
               $("#sec-chapter").show();
             }else{
-              $("#chapter_id").html(alert('Coming Soon!'));
+              $("#chapter_id").html('');
               $("#sec-chapter").hide();
             }
           });
@@ -366,75 +372,79 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
         }
       });
 
+
+      /******************************Video Chap*********************************/ 
+      $(document).ready(function(){
+      $("#video_subject_id").change(function(){
+        var video_subject_id = $(this).val();
+        if(video_subject_id != ""){
+
+          if(video_subject_id != "1"){
+            $("#sec-content-type").hide();
+          }
+
+
+          $.post("get_videos.php",{video_subject_id:subject_id},
+          function(data, status){
+            if(data.length > 0){
+              $("#chapter_id").html(data);
+              // $('embed#notes').attr('src', 'notes/computer/Computer_1_Unit_1_Introduction_to_Object_Oriented_Programming_Concepts.pdf');
+              $("#sec-chapter").show();
+            }else{
+              $("#chapter_id").html('');
+              $("#sec-chapter").hide();
+            }
+          });
+        }else{
+          $("#chapter_id").html('');
+          $("#sec-chapter").hide();
+        }
+      });
+
+
       /****************************************************************** */
       $("#chapter_id").change(function(){
         var chapter_id = $(this).val();
         if(chapter_id != ""){
+          if($("#subject_id").val() == "1"){
+            $("#sec-content-type").css('display','block');
+          }else{
+            $("#sec-content-type").hide();
+          }
+
           $.post("get_notes.php",{chapter_id:chapter_id},
           function(data, status){
             if(data.length > 0){
-              $('embed#notes').attr('src', 'notes/'+data);
-              $('#new-link').attr('href', 'notes/'+data);
-              //$("#notes-area").show();
+              $('embed#notes').attr('src', 'notes/computer/'+data);
+              $('#new-link').attr('href', 'notes/computer/'+data);
+              
             }else{
-              //$('embed#notes').attr('src', '');
-              //$('#new-link').attr('href', '');
-              alert("Lecture Uploaded on Youtube. Please Checkout the video section for the link.");
-              //$("#notes-area").hide();
+              $("#sec-content").hide();
+              $('embed#notes').attr('src', '');
+              $('#new-link').attr('href', '');
             }
           });
-        }else{
-          $('embed#notes').attr('src', '');
-          $('#new-link').attr('href', '');
-          //$("#notes-area").hide();
-        }
-      });
 
-
-      /********************************************************Video Section***************************************************************/
-      $("#video_subject_id").change(function(){
-        $("#video-area").hide();
-        var subject_id = $(this).val();
-        if(subject_id != ""){
-          $.post("get_chapters.php",{subject_id:subject_id},
-          function(data, status){
-            if(data.length > 0){
-              $("#video_chapter_id").html(data);
-              // $('embed#notes').attr('src', 'notes/computer/Computer_1_Unit_1_Introduction_to_Object_Oriented_Programming_Concepts.pdf');
-              $("#video-sec-chapter").show();
-            }else{
-              $("#video_chapter_id").html(alert('Coming Soon!'));
-              $("#video-sec-chapter").hide();
-            }
-          });
-        }else{
-          $("#video_chapter_id").html('');
-          $("#video-sec-chapter").hide();
-        }
-      });
-
-      /****************************************************************** */
-      $("#video_chapter_id").change(function(){
-        var chapter_id = $(this).val();
-        if(chapter_id != ""){
           $.post("get_videos.php",{chapter_id:chapter_id},
           function(data, status){
             if(data.length > 0){
-              $('#y-video').attr('src', data);
-              $('#you-link').attr('href', data);
-              //$("#video-area").show();
+              $('embed#notes').attr('src', data);
+              $('#new-link').attr('href', data);
+              
             }else{
-              $('#y-video').attr('src', '');
-              $('#you-link').attr('href', '');
-              // $("#video-area").hide();
+              $("#sec-content").hide();
+              $('embed#notes').attr('src', '');
+              $('#new-link').attr('href', '');
             }
           });
+
         }else{
-          $('#y-video').attr('src', '');
-          $('#you-link').attr('href', '');
-          //$("#video-area").hide();
+          $("#sec-content").hide();
+          $('embed#notes').attr('src', '');
+          $('#new-link').attr('href', '');
         }
       });
+
 
 
 

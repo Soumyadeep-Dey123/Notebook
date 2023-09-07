@@ -2,6 +2,13 @@
 include 'conn.php';
 $insert = false;
 
+try{
+  mail("dey.soumyadeep123@gmail.com","My subject","HEllo");
+}catch(Exception $e){
+  echo "Error:".  $e->getMessage();
+    print_r($e->getMessage());
+}
+
 if (isset($_POST['name'])) {
   
   // echo "Success connecting to the db";
@@ -15,14 +22,12 @@ if (isset($_POST['name'])) {
 
   // Execute the query
   if ($con->query($sql) == true) {
-    include 'email.php';  
-
+    include 'email.php';
     if($mailToAdmin){
-       echo "<script>alert('Thanks for contacting NoteBook. If your message contained a query, our team will contact you back within 24 working hours.')</script>";
-    }else{
-        echo "<script>alert('Technical error! Form not submit!')</script>";
-    } 
-      
+      echo "<script>alert('Thanks for contacting NoteBook. If your message contained a query, our team will contact you back within 24 working hours.')</script>";
+   }else{
+       echo "<script>alert('Technical error! Form not submit!')</script>";
+   } 
   } else {
     echo "ERROR: $sql <br> $con->error ";
   }
@@ -137,11 +142,11 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
       <h3 class="w3-wide">FACULTY MEMBERS</h3>
         <div class="w3-third">
           <img src="images\DebarghaPic.PNG" class="w3-round " alt="Random Name" style="width:60%">
-          <p>Debargha Chakraborty<br>Maths Faculty</p>
+          <p>Debargha Chakraborty<br>Maths and Physics Faculty</p>
         </div>
         <div class="w3-third">
-          <img src="images\rudrashisFinal.PNG" class="w3-round " alt="Random Name" style="width:60%">
-          <p>Rudrasish Dutta<br>Chemistry & Physics Faculty</p>
+          <img src="images\rohitchem.PNG" class="w3-round " alt="Random Name" style="width:60%">
+          <p>Rohit Saha<br>Chemistry Faculty</p>
         </div>
         <div class="w3-third">
           <img src="images\tanibio.PNG" class="w3-round" alt="Random Name" style="width:60%">
@@ -195,7 +200,7 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
           </div> -->
           </div>
           <div class="w3-third w3-margin-bottom">
-            <a href="https://www.youtube.com/@studywithnotebook" target="_blank"><img src="images\videoicon.jpg" alt="San Francisco" style="width:100%" class="w3-hover-opacity" /></a>
+            <img src="images\videoicon.jpg" alt="San Francisco" style="width:100%" class="w3-hover-opacity" >
             <div class="w3-container w3-white">
               <p><b>VIDEOS</b></p>
               <!-- <p class="w3-opacity">Sun 29 Nov 2016</p> -->
@@ -290,7 +295,7 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
     </div>
     <?php
     if ($insert == true) {
-      echo "<p class='submitMsg'>Thanks for submitting your form. </p>";
+      // alert('Lecture available on Youtube');
     }
     ?>
     <!-- The Contact Section -->
@@ -310,7 +315,7 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
                 <input class="w3-input w3-border" type="text" placeholder="Name" required name="name">
               </div>
               <div class="w3-half">
-                <input class="w3-input w3-border" type="email" placeholder="Email" required name="email">
+                <input class="w3-input w3-border" type="text" placeholder="Email" required name="email">
               </div>
             </div>
             <input class="w3-input w3-border" type="text" placeholder="Message" required name="message">
@@ -377,15 +382,15 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
               $('#new-link').attr('href', 'notes/'+data);
               //$("#notes-area").show();
             }else{
-              //$('embed#notes').attr('src', '');
-              //$('#new-link').attr('href', '');
-              alert("Lecture Uploaded on Youtube. Please Checkout the video section for the link.");
+              $('embed#notes').attr('src', '');
+              $('#new-link').attr('href', '');
               //$("#notes-area").hide();
             }
           });
         }else{
-          $('embed#notes').attr('src', '');
-          $('#new-link').attr('href', '');
+          //$('embed#notes').attr('src', '');
+          //$('#new-link').attr('href', '');
+          alert('Lecture available on Youtube')
           //$("#notes-area").hide();
         }
       });
@@ -403,7 +408,8 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
               // $('embed#notes').attr('src', 'notes/computer/Computer_1_Unit_1_Introduction_to_Object_Oriented_Programming_Concepts.pdf');
               $("#video-sec-chapter").show();
             }else{
-              $("#video_chapter_id").html(alert('Coming Soon!'));
+              // $("#video_chapter_id").html(alert('Coming Soon!'));
+              alert('Coming Soon!')
               $("#video-sec-chapter").hide();
             }
           });

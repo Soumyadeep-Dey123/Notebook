@@ -10,16 +10,16 @@ if (isset($_POST['chapter_id'])) {
     $res = mysqli_query($con, $sql);
 
     $rowcount=mysqli_num_rows($res);
-    $notesTitle = "";
+    $videoLink = "";
     if($rowcount > 0){
         $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
 
-        $notesTitle = $row['notes_title'];
+        $videoLink = $row['playlist_title'];
     
         
     
     }
-    echo $notesTitle;
+    echo $videoLink;
     
 
 }
