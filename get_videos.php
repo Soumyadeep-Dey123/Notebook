@@ -19,7 +19,8 @@ if (isset($_POST['chapter_id'])) {
         
     
     }
-    echo $videoLink;
+    // if(isset($_SESSION['name'])){
+        echo $videoLink;
     
 
 }

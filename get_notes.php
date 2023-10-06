@@ -19,8 +19,12 @@ if (isset($_POST['chapter_id'])) {
         
     
     }
-    echo $notesTitle;
-    
+    // if(isset($_SESSION['name'])){
+        echo $notesTitle;
+    // }else{
+        // echo "<script>alert('Please login to view the notes')</script>";
+        // echo "Please login to view the notes";
+    // }
 
 }
 ?>

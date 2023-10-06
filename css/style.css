@@ -226,7 +226,7 @@ textarea {
 /* End extract */
 html,
 body {
-  
+  font-family: Ubuntu;
   font-size: 15px;
   line-height: 1.5
 }
@@ -272,7 +272,7 @@ h6 {
 }
 
 .w3-monospace {
-  /* font-family: monospace */
+  font-family: monospace
 }
 
 h1,
