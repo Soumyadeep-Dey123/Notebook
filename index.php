@@ -1,20 +1,20 @@
 <?php
-include 'conn.php';
+// include 'conn.php';
+include 'all_functions.php';
 // if(!isset($_SESSION['name'])){
 //   header("Location: login.php");
 // }
-$insert = false;
+
 
 if (isset($_POST['name'])) {
-
-  // echo "Success connecting to the db";
-
-  // Collect post variables
   $name = $_POST['name'];
   $email = $_POST['email'];
   $message = $_POST['message'];
+  // $func_contact = new all_functions();
+  // $contactRes = $func_contact->contact_form($name, $email, $message, $con);
+  
   $sql = "INSERT INTO `contact` (`name`, `email`, `message`, `date`) VALUES ('$name', '$email', '$message', current_timestamp())";
-  // echo $sql;
+  echo $sql;
 
   // Execute the query
   if ($con->query($sql) == true) {
@@ -304,9 +304,9 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
     </div>
   </div>
   <?php
-  if ($insert == true) {
+  /* if ($insert == true) {
     echo "<p class='submitMsg'>Thanks for submitting your form. </p>";
-  }
+  } */
   ?>
   <!-- The Contact Section -->
   <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
@@ -329,7 +329,7 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
             </div>
           </div>
           <input class="w3-input w3-border" type="text" placeholder="Message" required name="message">
-          <button class="w3-button w3-black w3-section w3-right" type="submit">SEND</button>
+          <button class="w3-button w3-black w3-section w3-right" name="contact_submit" type="submit">SEND</button>
         </form>
       </div>
     </div>
@@ -386,11 +386,11 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
       $("#chapter_id").change(function() {
         var chapter_id = $(this).val();
         if (chapter_id != "") {
-          $.post("get_notes.php", {
+          $.post("index.php", {
               chapter_id: chapter_id
             },
             function(data, status) {
-              if (<?php isset($_SESSION['name']) ?>) {
+              
                 if (data.length > 0) {
                   $('embed#notes').attr('src', 'notes/' + data);
                   $('#new-link').attr('href', 'notes/' + data);
@@ -401,13 +401,7 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
                   alert("Lecture Uploaded on Youtube. Please Checkout the video section for the link.");
                   //$("#notes-area").hide();
                 }
-              } else {
-                alert("Please login to view the notes");
-                $("#notes-area").attr('href',"login.php");
-                
-                // document.getElementById("#new-link").textContent = "Login to view notes";
-
-              }
+             
             });
         } else {
           $('embed#notes').attr('src', '');
@@ -422,7 +416,7 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
         $("#video-area").hide();
         var subject_id = $(this).val();
         if (subject_id != "") {
-          $.post("get_chapters.php", {
+          $.post("index.php", {
               subject_id: subject_id
             },
             function(data, status) {
@@ -445,7 +439,7 @@ $videoResSubject = mysqli_query($con, $sqlSubject);
       $("#video_chapter_id").change(function() {
         var chapter_id = $(this).val();
         if (chapter_id != "") {
-          $.post("get_videos.php", {
+          $.post("all_functions.php", {
               chapter_id: chapter_id
             },
             function(data, status) {

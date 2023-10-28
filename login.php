@@ -1,21 +1,17 @@
 <?php
 
-include 'conn.php';
+include 'googleconfig.php';
+include('conn.php');
+
+$login_button = '<a href="'.$google_client->createAuthUrl().'">LOGIN WITH GOOGLE</a>';
+
 if(isset($_SESSION['name'])){
   header("Location: index.php");
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-  // $username = $_POST['username'];
   $email = $_POST['email'];
   $password = $_POST['password'];
-
-  // $sql = "INSERT INTO `login`.`login` (`username`,  `password`) VALUES ('$username',  '$password');";
-
-  // if ($conn->connect_error) {
-  //     die("Connection failed: " . $conn->connect_error);
-  // }
-  // $sql = "INSERT INTO login (username, email, password) VALUES ('$username', '$email', '$password')";
 
   // Replace with your authentication logic (e.g., querying the database).
   // For this example, we'll assume a user with the provided email and password exists.
@@ -24,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if ($result->num_rows == 1) {
     $rowSubject = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    //print_r($rowSubject); //exit();
     $_SESSION['name'] = $rowSubject['name'];
     $_SESSION['email'] = $rowSubject['email'];
     $_SESSION['phonenum'] = $rowSubject['phnum'];
@@ -40,6 +35,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
 }
+
+if(isset($_GET["code"])){
+  $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
+ 
+  if(!isset($token['error'])){
+   $google_client->setAccessToken($token['access_token']);   
+   $_SESSION['access_token'] = $token['access_token']; 
+   $google_service = new Google_Service_Oauth2($google_client);  
+   $data = $google_service->userinfo->get();
+  
+   if(!empty($data['given_name'])){
+    $_SESSION['name'] = $data['given_name'];
+   }
+   if(!empty($data['family_name'])){
+    $_SESSION['user_last_name'] = $data['family_name'];
+   }
+   if(!empty($data['email'])){
+    $_SESSION['email'] = $data['email'];
+   }
+   if(!empty($data['gender'])){
+    $_SESSION['user_gender'] = $data['gender'];
+   }
+   if(!empty($data['picture'])){
+    $_SESSION['user_image'] = $data['picture'];
+   }
+   header("Location: index.php");
+  }
+ }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -107,6 +130,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="container signin">
         <div class="btn-field">
           <button type="submit" id="signinBtn" class="disable registerbtn w3-button w3-black w3-section w3-center"><b>SIGN IN</b></button>
+          <br>
+
+        </div>
+        <div class="btn-field">
+          <button type="submit" id="signinBtn" class="disable registerbtn w3-button w3-black w3-section w3-center"><b><?php echo $login_button  ?></b></button>
           <br>
 
         </div>
